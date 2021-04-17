@@ -1,15 +1,11 @@
+const { exec } = require("child_process");
 var express = require('express');
 var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+var nScreens = process.env.NUMBER_OF_SCREENS;
 var id;
-var myArgs = process.argv.slice(2);
-var nScreens = Number(myArgs[0]);
-
-if(myArgs.length == 0 || isNaN(nScreens)) {
-    console.log("Number of screens invalid or not informed, default number is 2.")
-    nScreens = 2;
-}
+var test = process.env.MACHINE_1_ID;
 
 app.use(express.static(__dirname + '/public'))
 
@@ -38,6 +34,10 @@ io.on('connect', (socket) => {
     socket.on("set-breakpoint", function(bp) {
         breakpoint = bp;
     })
+
+    socket.on("open-game", function() {
+        exec(`ssh -Xnf leoruas@${test} -p 2222 "export DISPLAY=:0; chromium google.com"`);
+    });
 })
 
 const port = 8028;
