@@ -10,13 +10,9 @@ player = {
     speed: 10,
 }
 var keys = [];
-var nScreens;
 
 //Socket listeners
-socket.on('new-screen', function (payload) {
-    //get number of screens
-    nScreens = payload.nScreens;
-
+socket.on('connect', function () {
     //canvas/canvas context setup
     canvas = document.getElementById("canvas");
     canvas.height = window.innerHeight;
@@ -33,8 +29,6 @@ socket.on('new-screen', function (payload) {
     })
 
     setInterval(updateGameArea, 20); //update game area every 20ms
-
-    socket.emit("set-breakpoint", window.innerWidth / nScreens); //get breakpoint value
 })
 
 //Js functions

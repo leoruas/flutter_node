@@ -10,7 +10,6 @@ var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
-
 var nScreens = process.env.NUMBER_OF_SCREENS;
 var id;
 var machine1ID = process.env.MACHINE_1_ID;
@@ -28,14 +27,11 @@ app.get('/:id', (req, res) => {
     else {
         res.sendFile(__dirname + '/public/index.html');
     }
-
 })
 
 let breakpoint;
 io.on('connect', (socket) => {
     console.log(`User connected with id ${socket.id}!`);
-
-    socket.emit('new-screen', {id, nScreens, breakpoint});
 
     socket.on("update-player", function(player) {
         io.emit("update-player", player);

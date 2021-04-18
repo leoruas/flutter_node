@@ -1,12 +1,10 @@
 var socket = io();
-var ctx, canvas, nScreens, screenNumber, player;
+var ctx, canvas, nScreens, player;
 var hasLoaded = false;
+screenNumber = window.location.pathname.substring(1);
 
 //Socket listeners
-socket.on("new-screen", function (payload) {
-    nScreens = payload.nScreens;
-    screenNumber = payload.id;
-
+socket.on("connect", function () {
     //setup canvas/canvas context
     canvas = document.getElementById("canvas");
     canvas.height = window.innerHeight;
