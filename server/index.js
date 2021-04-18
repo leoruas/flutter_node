@@ -15,6 +15,7 @@ var nScreens = process.env.NUMBER_OF_SCREENS;
 var id;
 var machine1ID = process.env.MACHINE_1_ID;
 var machine2ID = process.env.MACHINE_2_ID;
+var serverIp = process.env.SERVER_IP;
 
 app.use(express.static(__dirname + '/public'))
 
@@ -45,8 +46,8 @@ io.on('connect', (socket) => {
     })
 
     socket.on("open-game", function() {
-        exec(`ssh -Xnf leoruas@${machine1ID} -p 2222 "export DISPLAY=:0; chromium-browser --start-fullscreen google.com"`); //open in machine 1
-        exec(`ssh -Xnf leoruas@${machine2ID} -p 2222 "export DISPLAY=:0; chromium-browser --start-fullscreen google.com"`); //open in machine 2
+        exec(`ssh -Xnf leoruas@${machine1ID} -p 2222 "export DISPLAY=:0; chromium-browser http://${serverIp}:8028/1"`); //open in machine 1
+        exec(`ssh -Xnf leoruas@${machine2ID} -p 2222 "export DISPLAY=:0; chromium-browser http://${serverIp}:8028/2"`); //open in machine 2
     });
 })
 
