@@ -1,11 +1,20 @@
 const { exec } = require("child_process");
+
+//config for env file
+const dotenv = require('dotenv');
+dotenv.config();
+
+//server config
 var express = require('express');
 var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+
+
 var nScreens = process.env.NUMBER_OF_SCREENS;
 var id;
-var test = process.env.MACHINE_1_ID;
+var machine1ID = process.env.MACHINE_1_ID;
+var machine2ID = process.env.MACHINE_2_ID;
 
 app.use(express.static(__dirname + '/public'))
 
@@ -36,7 +45,8 @@ io.on('connect', (socket) => {
     })
 
     socket.on("open-game", function() {
-        exec(`ssh -Xnf leoruas@${test} -p 2222 "export DISPLAY=:0; chromium google.com"`);
+        exec(`ssh -Xnf leoruas@${machine1ID} -p 2222 "export DISPLAY=:0; chromium-browser --start-fullscreen google.com"`); //open in machine 1
+        exec(`ssh -Xnf leoruas@${machine2ID} -p 2222 "export DISPLAY=:0; chromium-browser --start-fullscreen google.com"`); //open in machine 2
     });
 })
 

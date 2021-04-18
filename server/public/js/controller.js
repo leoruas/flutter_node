@@ -16,7 +16,6 @@ var nScreens;
 socket.on('new-screen', function (payload) {
     //get number of screens
     nScreens = payload.nScreens;
-    socket.emit("open-game");
 
     //canvas/canvas context setup
     canvas = document.getElementById("canvas");
