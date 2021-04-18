@@ -1,5 +1,6 @@
 var socket = io();
 var ctx, canvas, nScreens, screenNumber, player;
+var hasLoaded = false;
 
 //Socket listeners
 socket.on("new-screen", function (payload) {
@@ -11,12 +12,14 @@ socket.on("new-screen", function (payload) {
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
     ctx = canvas.getContext("2d");
+    hasLoaded = true;
 })
 
 socket.on("update-player", function (pl) {
     player = pl;
 
-    updateGameArea();
+    if(hasLoaded) //only draw if loaded info
+        updateGameArea();
 });
 
 //Js functions
