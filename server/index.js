@@ -46,8 +46,8 @@ io.on('connect', (socket) => {
     })
 
     socket.on("open-game", function() {
-        exec(`ssh -Xnf leoruas@${machine1ID} -p 2222 "export DISPLAY=:0; chromium-browser http://${serverIp}:8028/1"`); //open in machine 1
-        exec(`ssh -Xnf leoruas@${machine2ID} -p 2222 "export DISPLAY=:0; chromium-browser http://${serverIp}:8028/2"`); //open in machine 2
+        exec(`ssh -Xnf leoruas@${machine1ID} "export DISPLAY=:0; chromium-browser http://${serverIp}:8028/1"`); //open in machine 1
+        exec(`ssh -Xnf leoruas@${machine2ID} "export DISPLAY=:0; chromium-browser http://${serverIp}:8028/2"`); //open in machine 2
     });
 })
 
