@@ -1,7 +1,16 @@
 var socket = io();
 var ctx, canvas, nScreens, player;
-var hasLoaded = false;
+var hasStarted = false;
 screenNumber = window.location.pathname.substring(1);
+var player = {
+    size: 50,
+    x: 0,
+    y: 0,
+    color: "green",
+    speedY: 0,
+    speedX: 0,
+    speed: 25,
+}
 
 //Socket listeners
 socket.on("connect", function () {
@@ -10,14 +19,11 @@ socket.on("connect", function () {
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
     ctx = canvas.getContext("2d");
-    hasLoaded = true;
+    setInterval(updateGameArea, 20);
 })
 
 socket.on("update-player", function (pl) {
     player = pl;
-
-    if(hasLoaded) //only draw if loaded info
-        updateGameArea();
 });
 
 //Js functions
